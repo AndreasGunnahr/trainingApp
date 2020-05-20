@@ -2,16 +2,19 @@ import React from "react";
 import { Route } from "react-router-dom";
 
 // import pages
-import landingPage from "../components/pages/landingPage";
-import loginPage from "../components/pages/loginPage";
-import registerPage from "../components/pages/registerPage";
+import LandingPage from "../components/pages/landingPage";
+import LoginPage from "../components/pages/loginPage";
+import RegisterPage from "../components/pages/registerPage";
+import DashboardPage from "../components/pages/registerPage";
 
 const Routes = () => {
   return (
     <Route>
-      <Route exact path="/" component={landingPage} />
-      <Route exact path="/login" component={loginPage} />
-      <Route exact path="/register" component={registerPage} />
+      <Route exact path="/" component={LandingPage} />
+      <Route exact path="/login" component={LoginPage} />
+      <Route exact path="/register" component={RegisterPage} />
+      {/* Dashboard borde gå till "/" också ifall man är inloggad */}
+      <Route exact path="/dashboard" component={DashboardPage} />
     </Route>
   );
 };

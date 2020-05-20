@@ -25,6 +25,9 @@ const useStyles = makeStyles((theme) => ({
 
 const RegisterForm = () => {
   const classes = useStyles();
+
+  const handleSubmit = () => {};
+
   return (
     <Box className={classes.loginBox}>
       <Typography
@@ -36,10 +39,16 @@ const RegisterForm = () => {
       >
         Create your account today!
       </Typography>
-      <form className={classes.form} noValidate>
+      <form className={classes.form}>
         <Grid container spacing={2}>
           <Grid item xs={12} sm={6}>
-            <TextFieldOutlined name="Full name" label="Full name" type="text" />
+            <TextFieldOutlined
+              name="Full name"
+              label="Full name"
+              type="phone"
+              helperText="WRRRROOOONNGG"
+              error="true"
+            />
             <TextFieldOutlined name="username" label="Username" type="text" />
             <TextFieldOutlined name="email" label="Email" type="email" />
           </Grid>
