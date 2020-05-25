@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   Avatar,
   Button,
@@ -8,7 +8,9 @@ import {
   Grid,
   Typography,
   Box,
+  TextField,
 } from "@material-ui/core";
+import { useForm } from "react-hook-form";
 import LockOutlinedIcon from "@material-ui/icons/LockOutlined";
 import TextFieldOutlined from "../common/textFieldOutlined";
 
@@ -44,6 +46,25 @@ const useStyles = makeStyles((theme) => ({
 
 const LoginForm = () => {
   const classes = useStyles();
+  const { register, errors, handleSubmit } = useForm();
+  const getUsers = async (formData) => {
+    let response = await fetch("/api/user", {
+      method: "POST",
+      body: JSON.stringify(formData),
+    });
+    let data = await response.json();
+    return data;
+  };
+
+  const onSubmit = (values, e) => {
+    getUsers(values);
+    // console.log(values);
+    e.preventDefault();
+  };
+  // useEffect(() => {
+  //   console.log(getUsers());
+  // }, []);
+
   return (
     <Box className={classes.loginBox}>
       <Avatar className={classes.avatar}>
@@ -57,9 +78,45 @@ const LoginForm = () => {
       >
         Login to follow your journey
       </Typography>
-      <form className={classes.form} noValidate>
-        <TextFieldOutlined name="email" label="Username" type="text" />
-        <TextFieldOutlined name="password" label="Password" type="password" />
+      <form className={classes.form} onSubmit={handleSubmit(onSubmit)}>
+        <TextField
+          id="outlined-username"
+          name="username"
+          label="Username"
+          type="text"
+          autoComplete="username"
+          margin="normal"
+          variant="outlined"
+          fullWidth
+          error={!!errors.username}
+          inputRef={register({
+            required: "Required",
+            // validate: async value => await fetch(url), // ska implementeras
+            // pattern: {
+            //   message: "Username is already taken",
+            // },
+          })}
+          helperText={errors.username && errors.username.message}
+        />
+        <TextField
+          id="outlined-password"
+          label="Password"
+          type="password"
+          name="password"
+          autoComplete="password"
+          margin="normal"
+          variant="outlined"
+          fullWidth
+          error={!!errors.password}
+          inputRef={register({
+            pattern: {
+              required: "Required",
+              // value: /^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,4}$/i,
+              // message: "Wrong password",
+            },
+          })}
+          helperText={errors.password ? errors.password.message : ""}
+        />
         <FormControlLabel
           control={
             <Checkbox
